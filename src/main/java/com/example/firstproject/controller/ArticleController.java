@@ -6,27 +6,55 @@ import com.example.firstproject.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j//Simple Logging Facade for Java,로깅기능
 public class ArticleController {
     @Autowired //스프링부트가 미리 생성해 놓은 리포지토리 객체 주입(DI)
     private ArticleRepository articleRepository;
-
+//        데이터 생성
     @GetMapping("/articles/new")
     public String newArticleForm(){
         return "articles/new"; //파일경로/파일이름
     }
-
+//        단일 데이터 조회
     @GetMapping("/articles/{id}")//컨트롤러에서 url 변수를 사용할때는 중괄호 하나만
-    public String show(@PathVariable Long id) {
-        //@PathVariableurl 요청으로 들어온 전달값을 컨트롤러의 매개변수로 가져옴
+    public String show(@PathVariable Long id, Model model) {
+//        @PathVariableurl 요청으로 들어온 전달값을 컨트롤러의 매개변수로 가져옴
         log.info("id="+id);
-        return "";
+//        1. id를 조회해 데이터 가져오기
+        Article articleEntity=articleRepository.findById(id).orElse(null);
+//        findById(id)의 optional타입반환.
+//        Article엔티티를 옵셔널로 감싸주거나 orElse(null)붙이기
+
+//        2. 모델에 데이터 등록하기
+        model.addAttribute("article",articleEntity);
+
+//        3. 뷰 페이지 반환하기
+        return "articles/show";
     }
+//        전체 데이터 조회
+    @GetMapping("/articles")
+    public String index(Model model){
+//        1.모든 데이터 가져오기
+          List<Article> articleEntityList=articleRepository.findAll();
+//        findAll()은 Iterable타입 반환,articleEntityList은 List타입이므로 타입이 서로 안맞음
+//        해결법:findAll()을(List<Article>)로 다운캐스팅하기 or
+//              articleEntityList타입을 List<Article>에서 Iterable<Article>로 업캐스팅하기 or
+//              findAll()이 List 대신 ArrayList를 반환하게 하기
+//        2.모델에 데이터 등록하기
+          model.addAttribute("articleList",articleEntityList);
+//        3.뷰 페이지 설정하기
+        return "articles/index";
+    }
+
 
     @PostMapping("/articles/create") //행가로 ,열세로
     public String createArticle(ArticleForm form){
@@ -34,13 +62,13 @@ public class ArticleController {
         log.info(form.toString());
 //        1.DTO를 엔티티로 변환
         Article article = form.toEntity();
-        log.info(form.toString());
+        log.info(article.toString());
 //        System.out.println(article.toString());//그냥 출력값 찍어보는 코드
 //        2.레파짓토리로 엔티티를 db에 저장
         Article saved = articleRepository.save(article);
-        log.info(form.toString());
+        log.info(article.toString());
 //        System.out.println(saved.toString());
-        return "";
+        return "redirect:/articles/"+saved.getId();
     }
 
 

@@ -5,12 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@ToString
 @AllArgsConstructor
+@ToString
+@NoArgsConstructor
+@Getter
 public class Article {
     @Id
     @GeneratedValue
