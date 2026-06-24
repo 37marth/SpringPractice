@@ -54,6 +54,12 @@ public class ArticleController {
 //        3.뷰 페이지 설정하기
         return "articles/index";
     }
+    @GetMapping("/articles/{id}/edit")//mustache(뷰페이지)에서 변수는 {{id}}2개 컨트롤러 url은 {id}하나
+    public String edit(@PathVariable Long id,Model model){
+        Article articleEntity=articleRepository.findById(id).orElse(null);
+        model.addAttribute("article",articleEntity);
+        return "articles/edit" ;
+    }
 
 
     @PostMapping("/articles/create") //행가로 ,열세로

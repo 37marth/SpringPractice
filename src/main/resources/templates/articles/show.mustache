@@ -17,6 +17,7 @@
     </tr>
     {{/article}}
     </tbody>
-</table>
+</table><!--범위 지정 안했으면 .사용해서 article.id라고 표시-->
+<a href="/articles/{{article.id}}/edit" class="btn btn-primary">Edit</a>
 <a href="/articles">Go to Article List</a>
 {{>layouts/footer}}
