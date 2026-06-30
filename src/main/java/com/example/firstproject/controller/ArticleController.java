@@ -24,6 +24,7 @@ public class ArticleController {
     public String newArticleForm(){
         return "articles/new"; //파일경로/파일이름
     }
+
 //        단일 데이터 조회
     @GetMapping("/articles/{id}")//컨트롤러에서 url 변수를 사용할때는 중괄호 하나만
     public String show(@PathVariable Long id, Model model) {
@@ -40,6 +41,7 @@ public class ArticleController {
 //        3. 뷰 페이지 반환하기
         return "articles/show";
     }
+
 //        전체 데이터 조회
     @GetMapping("/articles")
     public String index(Model model){
@@ -54,6 +56,8 @@ public class ArticleController {
 //        3.뷰 페이지 설정하기
         return "articles/index";
     }
+
+
     @GetMapping("/articles/{id}/edit")//mustache(뷰페이지)에서 변수는 {{id}}2개 컨트롤러 url은 {id}하나
     public String edit(@PathVariable Long id,Model model){
         Article articleEntity=articleRepository.findById(id).orElse(null);
@@ -61,8 +65,26 @@ public class ArticleController {
         return "articles/edit" ;
     }
 
+    @PostMapping("/articles/update") //데이터 수정
+    public String update(ArticleForm form){
+        log.info(form.toString());
+//        1.DTO를 엔티티로 변환하기
+        Article articleEntity = form.toEntity();
+        log.info(articleEntity.toString());
+//        2.엔티티를 DB에 저장하기
+//        2-1.DB에 기존 데이터 가져오기
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
+//        2-2 기존 데이터 값 갱신하기
+        if(target!=null){
+            articleRepository.save(articleEntity);  //id가 null → 새 데이터 등록 INSERT
+                                                    //id가 있음 → 기존 데이터 수정 UPDATE
+        }
+//        3.수정 결과 페이지로 리다이렉트하기
+        return "redirect:/articles/"+articleEntity.getId();
+    }
 
-    @PostMapping("/articles/create") //행가로 ,열세로
+
+    @PostMapping("/articles/create") //데이터 생성.(행가로 ,열세로)
     public String createArticle(ArticleForm form){
 //        System.out.println(form.toString());
         log.info(form.toString());
