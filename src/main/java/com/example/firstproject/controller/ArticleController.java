@@ -65,8 +65,8 @@ public class ArticleController {
         model.addAttribute("article",articleEntity);
         return "articles/edit" ;
     }
-
-    @PostMapping("/articles/update") //데이터 수정
+    //데이터 수정
+    @PostMapping("/articles/update")
     public String update(ArticleForm form){
         log.info(form.toString());
 //        1.DTO를 엔티티로 변환하기
