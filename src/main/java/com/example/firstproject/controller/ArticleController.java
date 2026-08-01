@@ -84,8 +84,8 @@ public class ArticleController {
         return "redirect:/articles/"+articleEntity.getId();
     }
 
-
-    @PostMapping("/articles/create") //데이터 생성.(행가로 ,열세로)
+    //데이터 생성.(행가로 ,열세로)
+    @PostMapping("/articles/create")
     public String createArticle(ArticleForm form){
 //        System.out.println(form.toString());
         log.info(form.toString());
@@ -100,6 +100,7 @@ public class ArticleController {
         return "redirect:/articles/"+saved.getId();
     }
 
+    //데이터 삭제
     @GetMapping("articles/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes rttr){
         log.info("삭제 요청이 정상적으로 들어왔습니다!!!");
