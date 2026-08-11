@@ -1,0 +1,40 @@
+package com.example.firstproject.service;
+
+import com.example.firstproject.dto.CommentDto;
+import com.example.firstproject.repository.ArticleRepository;
+import com.example.firstproject.repository.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.firstproject.entity.Comment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.example.firstproject.dto.CommentDto.createCommentDto;
+
+@Service
+public class CommentService {
+    @Autowired
+    private CommentRepository commentRepository;
+    @Autowired
+    private ArticleRepository articleRepository;
+
+    public List<CommentDto> comments(Long articleId) {
+        /*//1.댓글 조회
+        List<Comment> comments = commentRepository.findByArticleId(articleId);
+        //2.엔티티->dto 변환
+        List<CommentDto> dtos = new ArrayList<CommentDto>();
+        for(int i = 0; i < comments.size(); i++){
+            Comment c = comments.get(i);
+            CommentDto dto = CommentDto.createCommentDto(c);
+            dtos.add(dto);
+        }*/
+        //3.결과 반환
+        return commentRepository.findByArticleId(articleId)//댓글 엔티티 목록 조회
+                .stream()//댓글 엔티티 목록을 스트림으로 변환해서 처리할준비
+                .map(comment -> createCommentDto(comment))//엔티티를 DTO 형태로 변환(매핑)
+                .collect(Collectors.toList());//변환된 결과들을 다시 모아서 결과물로 만들기
+    }
+}

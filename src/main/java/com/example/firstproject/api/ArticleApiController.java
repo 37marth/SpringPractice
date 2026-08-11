@@ -19,7 +19,7 @@ public class ArticleApiController {
     @Autowired
     private ArticleService articleService;
 
-    //    //GET
+    //GET
     @GetMapping("/api/articles")
     public List<Article> index() {
         return articleService.index();
