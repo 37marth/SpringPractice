@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>셀프 체크 17</title>
+</head>
+<body>
+    <h1>Hello,<span id="target">World</span>!</h1>
+    <input type="text" id="text-input">
+    <button id="send-button">전송</button>
+    <script>
+        const sendButton = document.querySelector("#send-button");
+        const textInput = document.querySelector("#text-input");
+        const target = document.querySelector("#target");
+        sendButton.addEventListener('click', function () {
+            target.innerText = textInput.value
+        });
+    </script>
+</body>
+</html>
