@@ -12,6 +12,9 @@
                         data-bs-nickname="{{nickname}}"
                         data-bs-body="{{body}}"
                         data-bs-article-id="{{articleId}}">수정</button>
+                <button type="button"
+                        class="btn btn-sm btn-outline-danger comment-delete-btn"
+                        data-comment-id="{{id}}">삭제</button>
             </div>
             <div class = "card-body">
                 {{body}}
@@ -87,7 +90,7 @@
                 id:document.querySelector("#edit-comment-id").value,
                 nickname:document.querySelector("#edit-comment-nickname").value,
                 body:document.querySelector("#edit-comment-body").value,
-                articleId:document.querySelector("#edit-comment-id").value
+                articleId:document.querySelector("#edit-comment-article-id").value
             };
             console.log(comment);
             //수정 REST API 호출
@@ -106,5 +109,36 @@
                 window.location.reload();
             })
         })
+    }
+</script>
+<!--댓글삭제-->
+<script>
+    {
+        const commentDeleteBtns = document.querySelectorAll(".comment-delete-btn");
+        // commentDeleteBtn.addEventListener("click", function() {
+        //     console.log("삭제 버튼이 클릭됐습니다!");
+        // })
+        commentDeleteBtns.forEach(btn => {
+            btn.addEventListener("click", (event) => {
+                const commentDeleteBtn =event.target;
+                const commentId = commentDeleteBtn.getAttribute("data-comment-id");
+                console.log(`삭제 버튼 클릭: ${commentId}번 댓글 `);
+                //삭제 REST API 호출
+                const url = `/api/comments/${commentId}`;
+                fetch(url, {
+                    method: "DELETE",
+                    //댓글을 생성하거나 수정할 때 처럼 보낼 데이터가 있는것은 아니므로 headers,body 는 작성 x
+                }).then(response => {
+                    if(!response.ok) {
+                        alert("댓글 삭제 실패 ㅠㅠ");
+                        return;
+                    }
+                    //삭제 성공시 메시지
+                    const msg = `${commentId}번 댓글 삭제 완료!`
+                    alert(msg);
+                    window.location.reload();
+                });
+            });
+        });
     }
 </script>
