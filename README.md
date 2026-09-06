@@ -11,7 +11,6 @@
 - 학습 기간: 2026.04 ~ 2026.09
 - 교재 1~19장 학습 완료
 - 교재에서 안내한 동영상 강의를 참고하여 PostgreSQL 연결 실습
-- 후속 학습: 핵심 개념과 어노테이션을 자기 말로 정리
 
 ## 사용 기술
 
@@ -43,9 +42,6 @@
 | JavaScript 댓글 등록·수정·삭제 | [_new.mustache](src/main/resources/templates/comments/_new.mustache), [_list.mustache](src/main/resources/templates/comments/_list.mustache) |
 | 테스트 코드 | [ArticleServiceTest.java](src/test/java/com/example/firstproject/service/ArticleServiceTest.java), [CommentRepositoryTest.java](src/test/java/com/example/firstproject/repository/CommentRepositoryTest.java) |
 
-## 학습 정리
-
-핵심 개념과 어노테이션은 실습 코드와 연결하여 블로그에 자기 말로 정리할 예정입니다.
 
 ## 참고 자료
 
